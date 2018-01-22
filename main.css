@@ -1,0 +1,150 @@
+/* --------- reset ---------- */
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  
+  body, p, ul, li {
+      margin: 0;
+      padding: 0;
+  }
+
+  /* --------- layout ---------- */
+
+  #main-container {
+      width: 100%;
+      background-color: rgb(61, 124, 95);; 
+      padding: 50px;
+      display: flex;
+      justify-content: center;
+   
+  }
+
+
+
+  /* --------- typography ---------- */
+
+
+  /* --------- components ---------- */
+
+      /* -- main site -- */
+.footer-p {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}  
+      
+footer {
+    background-color: black;
+    padding: 15px;
+}    
+
+      /*  -- splash -- */
+      
+#splash-container {
+    width: 850px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: orange;
+}
+
+.start-button {
+    font-size: 20px;
+    padding: 10px 30px;
+    border-radius: 15px;
+    color: white;
+    background-color: red;
+    margin-bottom: 30px;
+}    
+
+.img-splash {
+    margin-bottom: 30px;
+
+}
+
+/*  -- game -- */
+
+.obstacles {
+    background-color: red;
+}
+
+.game-rows{
+    background-color: white;
+    border: 1px solid red;
+    width: 50px;
+    height: 50px;
+}
+
+.game-columns{
+    background-color: white;
+    border: 1px solid red;
+    width: 50px;
+    height: 50px;
+}
+
+.game-info {
+    background: yellow;
+    height: 500px;
+    text-align: center;
+    flex: 1 0 20%;
+    margin-left: 30px;
+}
+
+#game-container {
+    width: 850px;
+    background-color: violet;
+    padding: 10px 30px;
+    display: flex;
+}
+
+/*  -- game over -- */
+
+.game-over-tittle {
+    color: white;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.game-over-info p {
+    padding-bottom: 10px;
+}
+
+.game-over-info {
+    background-color: rgb(43, 35, 35);
+    margin-bottom: 20px;
+}
+
+.play-again-button {
+    color: white;
+    background-color: blue;
+    justify-content: space-between;
+    border-radius: 15px;
+    font-size: 20px;
+    padding: 10px 30px;
+    margin-bottom: 30px;
+
+}
+
+#game-over-container {
+    width: 850px;
+    background-color: grey;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+ /* --------- pages ---------- */
+  
+  
+  
+  /* --------- TEMP ----------
+  div, header, footer, nav, article {
+      border: 1px solid black;
+  } */
