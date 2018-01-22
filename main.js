@@ -68,15 +68,27 @@ function main (){
                 gameBlocks.appendChild(gameRows);
             }
         }
-        
+       
         var columns = document.getElementsByClassName('game-columns');
-        // var rows = columns[x].childNodes();
+        var rows;
+        for (var w = 0; w < columns.length ; w++) {
+             rows = columns[w].childNodes();
+        }
+
+        var xAxis;
+        var yAxis;
+
+        
         
         // function putColor (x, y) {
-        //     columns[x].rows[y].style.backgroundColor = 'blue';
+        //     columns[x].rows[y].style.backgroundColor = "blue";
         // }
         
         // putColor(4,4);
+
+
+
+
 
         var obstacle = document.getElementsByClassName('game-rows');
         obstacle[33].style.backgroundColor = "red";
