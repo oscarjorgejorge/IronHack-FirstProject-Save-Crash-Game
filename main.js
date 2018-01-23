@@ -46,62 +46,13 @@ function main (){
     }
     
     // -- GAME  
-
-    var gameContainer;
+    var game;
 
     function buildGame() {
         stage = 'game';
 
-        gameContainer = document.createElement('div');
-        gameContainer.setAttribute('id', 'game-container');
-        mainContainer.appendChild(gameContainer);
-
-        var gameBlocks;
-        for (var x = 0; x <= 9; x ++) {
-            gameBlocks = document.createElement('div');
-            gameBlocks.classList.add('game-columns');
-            gameContainer.appendChild(gameBlocks);
-            var gameRows;
-            for (var y = 0; y <= 9; y ++) {
-                gameRows = document.createElement('div');
-                gameRows.classList.add('game-rows');
-                gameBlocks.appendChild(gameRows);
-            }
-        }
-       
-        var columns = document.getElementsByClassName('game-columns');
-        var rows;
-        for (var w = 0; w < columns.length ; w++) {
-             rows = columns[w].childNodes();
-        }
-
-        var xAxis;
-        var yAxis;
-
+        game = new Game(mainContainer);
         
-        
-        // function putColor (x, y) {
-        //     columns[x].rows[y].style.backgroundColor = "blue";
-        // }
-        
-        // putColor(4,4);
-
-
-
-
-
-        var obstacle = document.getElementsByClassName('game-rows');
-        obstacle[33].style.backgroundColor = "red";
-        
-        var gameInfo = document.createElement('div');
-        gameInfo.innerHTML = '<h3>Game Information<h3/><p>Score : 00..<p/><p>Time : 00:00<p/><p>Life : 100%<p/>';
-        gameInfo.classList.add('game-info');
-        gameContainer.appendChild(gameInfo);
-        
-        // window.setTimeout(function() {
-        //     destroyGame();
-        //     buildGameOver();
-        // }, 2000);
     }
 
     function destroyGame() {
