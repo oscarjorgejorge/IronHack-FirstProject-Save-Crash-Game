@@ -22,13 +22,13 @@ function Game (mainContainer) {
             self.movePlayer('right');
         }
         self.drawPlayer();
+        self.checkCollisions();
     }
 
     self.init();
 }
 
 // Game Functions 
-
 Game.prototype.init = function () {
     var self = this;
 
@@ -51,21 +51,41 @@ Game.prototype.start = function () {
     var intervalId = setInterval (function () {
         self.clearEnemies();
         self.moveEnemies();
-        self.checkCollisions();
         
         self.checkEnemiesDead();
         self.createEnemy();
         self.drawEnemies();
+        self.checkCollisions();
         
     }, self.intervalTime)
 }
 
-// Game.prototype.checkColision = function () {
-    
-    // }
-    
-    // Player Functions
-    
+Game.prototype.checkCollisions = function () {
+    var self = this;
+    // if (self.enemies !== undefined) {
+    self.enemies.forEach(function (enemy, index) {
+        if(enemy.y === self.size -1) {
+            if(enemy.x === self.player.x) {
+                enemy.clear();
+                self.enemies.splice(index, 1);
+                // self.player.recieveDamage(enemy.doDamage());
+                self.player.drawCollision();
+                // self.player.checkIsDead();
+
+                window.setTimeout(function() {
+                    self.player.draw();
+                }, 400);
+            }
+        }
+    })
+}
+
+Game.prototype.checkIsDead = function() {
+
+    //player.healt <= 0 -> gameOVER!
+}
+
+// Player Functions    
 Game.prototype.createPlayer = function () {
     var self = this;
     
@@ -77,7 +97,7 @@ Game.prototype.createPlayer = function () {
 
 Game.prototype.clearPlayer = function () {
     var self = this;
-
+    
     self.player.clear();
 }
 
@@ -88,19 +108,17 @@ Game.prototype.drawPlayer = function () {
 
 Game.prototype.movePlayer = function (direction) {
     var self = this;
-
+    
     self.player.update(direction);
 }
 
-
-    // Enemy Functions 
-    
+// Enemy Functions    
 Game.prototype.clearEnemies = function () {
     var self = this;
     
-self.enemies.forEach(function (enemy) {
-    enemy.clear();
-})
+    self.enemies.forEach(function (enemy) {
+        enemy.clear();
+    })
 }
 
 Game.prototype.moveEnemies = function () {
@@ -109,12 +127,6 @@ Game.prototype.moveEnemies = function () {
     self.enemies.forEach(function (enemy) {
         enemy.move();
     })
-}
-
-Game.prototype.checkCollisions = function () {
-    var self = this;
-
-    self.enemies.Collision();
 }
 
 Game.prototype.checkEnemiesDead = function () {
@@ -145,10 +157,7 @@ Game.prototype.drawEnemies = function () {
     });
 }
 
-
-
 // Game Functions 
-
 Game.prototype.buildLayout = function() {
     var self = this;
 

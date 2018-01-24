@@ -1,14 +1,13 @@
 'use strict';
 
-function Player (x, y, gameSurface, size) {
+function Player (x, y, gameSurface, size, health) {
     var self = this;
 
     self.x = x;
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
-    self.life = 100;
-
+    // self.health = health;
 };
 
 Player.prototype.update = function(direction) {
@@ -19,11 +18,15 @@ Player.prototype.update = function(direction) {
             self.x --;
         }
     } else if (direction === 'right') {
-        if (self.x < self.size) {
+        if (self.x < self.size -1) {
                 self.x ++;
             }
     }
 }
+
+// Player.prototype.recieveDamage = function (dmg) {
+//     self.health -= dmg;
+// }
 
 Player.prototype._getCellPlayer = function () {
     var self = this;
@@ -46,4 +49,11 @@ Player.prototype.draw = function () {
 
     var cellPlayer = self._getCellPlayer();
     cellPlayer.style.backgroundColor = 'blue';
+}
+
+Player.prototype.drawCollision = function () {
+    var self = this;
+
+    var cellPlayer = self._getCellPlayer();
+    cellPlayer.style.backgroundColor = 'orange';
 }

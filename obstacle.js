@@ -1,15 +1,21 @@
 'use strict';
 
-function Obstacle (x, y, gameSurface, size) {
+function Obstacle (x, y, gameSurface, size, damage) {
     var self = this;
     
     self.x = x;
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
+    // self.damage = damage;
     self.isAlive = true;
 
 } 
+
+// Obstacle.prototype.doDamage = function() {
+//     var self = this;
+//     return self.damage;
+// }
 
 Obstacle.prototype._getCellEnemy = function () {
     var self = this;
@@ -24,10 +30,7 @@ Obstacle.prototype.clear = function () {
     var self = this;
 
     var cellEnemy = self._getCellEnemy();
-    
-    // if (cellEnemy) {
-        cellEnemy.style.backgroundColor = 'white';
-    // }
+    cellEnemy.style.backgroundColor = 'white';
 }
 
 
@@ -45,6 +48,12 @@ Obstacle.prototype.move = function () {
     self.y ++;
     self._checkLife();
 }
+
+// Obstacle.prototype.hitPlayer = function () {
+//     var self = this;
+
+
+// }
 
 Obstacle.prototype.draw = function () {
     var self = this;
