@@ -7,8 +7,23 @@ function Player (x, y, gameSurface, size) {
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
+    self.life = 100;
+
 };
 
+Player.prototype.update = function(direction) {
+    var self = this;
+
+    if (direction === 'left') {
+        if (self.x > 0) {
+            self.x --;
+        }
+    } else if (direction === 'right') {
+        if (self.x < self.size) {
+                self.x ++;
+            }
+    }
+}
 
 Player.prototype._getCellPlayer = function () {
     var self = this;
@@ -19,26 +34,16 @@ Player.prototype._getCellPlayer = function () {
     return cellPlayer;
 }
 
+Player.prototype.clear = function () {
+    var self = this;
+
+    var cellPlayer = self._getCellPlayer();
+    cellPlayer.style.backgroundColor = 'white';
+}
+
 Player.prototype.draw = function () {
     var self = this;
 
     var cellPlayer = self._getCellPlayer();
     cellPlayer.style.backgroundColor = 'blue';
-}
-
-Player.prototype.move = function () {
-    var self = this;
-
-    var cellPlayer = _getCellPlayer();
-    cellPlayer.addEventLister('key', function (key) {
-        if (key === 'flecha izquierda') {
-            if (self.y > 0) {
-                self.y --;
-            }
-        } else if (key === 'fecha derecha') {
-            if (self.y < self.size) {
-                self.y ++;
-            }
-        }
-    })
 }

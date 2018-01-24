@@ -98,7 +98,7 @@ function main (){
         playAgainButton.removeEventListener('click', handlePlayAgainClick);
     }
     
-    buildSplash();
+    buildGame();
 }
 
 window.onload = main;

@@ -9,14 +9,22 @@ function Game (mainContainer) {
     self.gameSurface;
     self.intervalTime;
     self.size;
-
     self.enemies;
-
     self.player;
-    self.playerLife;
+    self.handleKeyPress;
 
-    self.init();    
+    self.handleKeyPress = function (event) {
+        self.clearPlayer();
 
+        if (event.keyCode === 37) {
+            self.movePlayer('left');
+        } else if (event.keyCode === 39) {
+            self.movePlayer('right');
+        }
+        self.drawPlayer();
+    }
+
+    self.init();
 }
 
 // Game Functions 
@@ -24,45 +32,53 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.intervalTime = 500;
+    self.intervalTime = 1000;
     self.size = 10;
-
     self.enemies = [];
 
-    self.playerLife = 0;
+    document.addEventListener('keydown', self.handleKeyPress);
 
     self.buildLayout();
     self.start();
 }
 
-
 Game.prototype.start = function () {
     var self = this;
-
+    
     self.createPlayer();
     self.drawPlayer();
-
-
+    
     var intervalId = setInterval (function () {
         self.clearEnemies();
         self.moveEnemies();
+        self.checkCollisions();
+        
         self.checkEnemiesDead();
         self.createEnemy();
         self.drawEnemies();
-
+        
     }, self.intervalTime)
 }
 
-// Player Functions
-
+// Game.prototype.checkColision = function () {
+    
+    // }
+    
+    // Player Functions
+    
 Game.prototype.createPlayer = function () {
     var self = this;
-
-    var startPlayerX = self.size/2;
+    
+    var startPlayerX = Math.floor(self.size/2);
     var startPlayerY = self.size -1;
-
+    
     self.player = new Player (startPlayerX, startPlayerY, self.gameSurface, self.size);
-    self.playerLife += 100;
+}
+
+Game.prototype.clearPlayer = function () {
+    var self = this;
+
+    self.player.clear();
 }
 
 Game.prototype.drawPlayer = function () {
@@ -70,17 +86,21 @@ Game.prototype.drawPlayer = function () {
     self.player.draw();
 }
 
-
-
-
-// Enemy Functions 
-
-Game.prototype.clearEnemies = function () {
+Game.prototype.movePlayer = function (direction) {
     var self = this;
 
-    self.enemies.forEach(function (enemy) {
-        enemy.clear();
-    })
+    self.player.update(direction);
+}
+
+
+    // Enemy Functions 
+    
+Game.prototype.clearEnemies = function () {
+    var self = this;
+    
+self.enemies.forEach(function (enemy) {
+    enemy.clear();
+})
 }
 
 Game.prototype.moveEnemies = function () {
@@ -89,6 +109,12 @@ Game.prototype.moveEnemies = function () {
     self.enemies.forEach(function (enemy) {
         enemy.move();
     })
+}
+
+Game.prototype.checkCollisions = function () {
+    var self = this;
+
+    self.enemies.Collision();
 }
 
 Game.prototype.checkEnemiesDead = function () {
@@ -141,8 +167,8 @@ Game.prototype.buildLayout = function() {
         for (var y = 0; y < self.size; y ++) {
             var gameRows = document.createElement('div');
             gameRows.classList.add('game-rows');
-            // gameRows.style.width = '' + 500/self.size + '';
-            // gameRows.style.height = '' + 500/self.size+ '';
+            gameRows.style.width = '' + 500/self.size + 'px';
+            gameRows.style.height = '' + 500/self.size + 'px';
             gameColumns.appendChild(gameRows);
         }      
         self.gameSurface.appendChild(gameColumns);
