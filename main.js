@@ -55,18 +55,17 @@ function main (){
         gameover = false;
 
         game = new Game(mainContainer);
-        
+        game.onGameOver(function (score){
+            destroyGame();
+            buildGameOver(score);
+        });
     }
 
     function destroyGame() {
-        gameContainer.remove();
-
+        //clear Intervals
+        game.destroy();
     }
 
-    game.onGameOver(function (){
-        destroyGame();
-        buildGameOver();
-    });
 
     // -- GAME OVER
     var gameOverContainer;

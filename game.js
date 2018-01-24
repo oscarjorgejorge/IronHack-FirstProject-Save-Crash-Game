@@ -9,6 +9,7 @@ function Game (mainContainer) {
     self.gameSurface;
     self.lifeInfo;
     self.intervalTime;
+    self.intervalId;
     self.size;
 
     self.enemies;
@@ -38,8 +39,8 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.intervalTime = 400;
-    self.size = 10;
+    self.intervalTime = 300;
+    self.size = 8;
     self.enemies = [];
 
     document.addEventListener('keydown', self.handleKeyPress);
@@ -48,13 +49,14 @@ Game.prototype.init = function () {
     self.start();
 }
 
+
 Game.prototype.start = function () {
     var self = this;
     
     self.createPlayer();
     self.drawPlayer();
     
-    var intervalId = setInterval (function () {
+    self.intervalId = setInterval (function () {
         self.clearEnemies();
         self.moveEnemies();
         
@@ -77,27 +79,22 @@ Game.prototype.checkCollisions = function () {
                 self.player.drawCollision();
                 self.updateLifeInformation();
                 self.checkIsDead();
-
+                
                 window.setTimeout(function() {
                     self.player.draw();
-                }, 400);
+                }, 300);
             }
         }
     })
 }
 
-Game.prototype.updateLifeInformation = function () {
+Game.prototype.destroy = function () {
     var self = this;
 
-    self.lifeInfo.innerText = self.health + "%";
-}
-
-Game.prototype.checkIsDead = function() {
-    var self = this;
+    clearInterval(self.intervalId);
     
-    if (self.health < 0) {
-       self.onEnded();
-    }
+
+    self.gameContainer.remove();
 }
 
 // Player Functions    
@@ -126,6 +123,20 @@ Game.prototype.movePlayer = function (direction) {
     var self = this;
     
     self.player.update(direction);
+}
+
+Game.prototype.updateLifeInformation = function () {
+    var self = this;
+    
+    self.lifeInfo.innerText = self.health + "%";
+}
+
+Game.prototype.checkIsDead = function() {
+    var self = this;
+    
+    if (self.health < 0) {
+        self.onEnded(self.score);
+    }
 }
 
 // Enemy Functions    
@@ -214,12 +225,8 @@ Game.prototype.buildLayout = function() {
     self.gameContainer.appendChild(gameInfo);
 }
 
+Game.prototype.onGameOver = function (callBack) {
+    var self = this;
 
-
-
-
-    Game.prototype.onGameOver = function (callBack) {
-        var self = this;
-
-        self.onEnded = callBack; 
-    }
+    self.onEnded = callBack; 
+}
