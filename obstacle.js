@@ -16,8 +16,11 @@ Obstacle.prototype._getCellEnemy = function () {
     var self = this;
     
     var columnEnemy = self.gameSurface.children[self.x];
+    // var secondColumnEnemy = self.gameSurface.children[(self.x) +1];
+
     var cellEnemy = columnEnemy.children[self.y];
-    
+    // var secondCellEnemy =secondColumnEnemy.children[self.y];
+
     return cellEnemy;
 }
 

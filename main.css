@@ -103,15 +103,14 @@ footer {
     color: white;
     text-align: center;
     justify-content: space-between;
+    margin-bottom: 100px;
 }
 
-.game-over-info p {
-    padding-bottom: 10px;
-}
+
 
 .game-over-info {
-    background-color: rgb(43, 35, 35);
-    margin-bottom: 20px;
+    background-color: rgb(173, 34, 34);
+    font-size: 40px;    
 }
 
 .play-again-button {
@@ -121,8 +120,7 @@ footer {
     border-radius: 15px;
     font-size: 20px;
     padding: 10px 30px;
-    margin-bottom: 30px;
-
+    margin: 150px 0px;
 }
 
 #game-over-container {

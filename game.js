@@ -7,18 +7,21 @@ function Game (mainContainer) {
     self.mainContainer = mainContainer;
     self.gameContainer;
     self.gameSurface;
+    self.size;
+    self.score;
+    self.scoreInfo;
     self.lifeInfo;
     self.intervalTime;
-    self.intervalId;
-    self.size;
+    self.intervalIdGame;
+    self.intervalIdScore;
+    self.handleKeyPress;
+    self.onEnded;
 
     self.enemies;
     self.damage;
 
     self.player;
     self.health;
-    self.handleKeyPress;
-    self.onEnded;
 
     self.handleKeyPress = function (event) {
         self.clearPlayer();
@@ -39,33 +42,44 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.intervalTime = 300;
     self.size = 8;
+    self.score = 0;
     self.enemies = [];
-
+    
+    self.intervalTime = 400;
     document.addEventListener('keydown', self.handleKeyPress);
 
     self.buildLayout();
     self.start();
 }
 
-
 Game.prototype.start = function () {
     var self = this;
     
     self.createPlayer();
     self.drawPlayer();
+
+    self.intervalIdScore = setInterval  (function (){
+        self.calculateScore();
+
+    }, 2000)
     
-    self.intervalId = setInterval (function () {
+    self.intervalIdGame = setInterval (function () {
         self.clearEnemies();
         self.moveEnemies();
-        
         self.checkEnemiesDead();
         self.createEnemy();
         self.drawEnemies();
         self.checkCollisions();
-        
+
     }, self.intervalTime)
+}
+
+Game.prototype.calculateScore = function () {
+    var self = this;
+
+    self.score ++;
+    self.scoreInfo.innerText = 'Score: ' + self.score + ' points';
 }
 
 Game.prototype.checkCollisions = function () {
@@ -77,7 +91,7 @@ Game.prototype.checkCollisions = function () {
                 self.enemies.splice(index, 1);
                 self.health = self.player.recieveDamage(enemy.hitPlayer());
                 self.player.drawCollision();
-                self.updateLifeInformation();
+                self.updateLifeInfo();
                 self.checkIsDead();
                 
                 window.setTimeout(function() {
@@ -88,12 +102,12 @@ Game.prototype.checkCollisions = function () {
     })
 }
 
+
 Game.prototype.destroy = function () {
     var self = this;
 
-    clearInterval(self.intervalId);
-    
-
+    clearInterval(self.intervalIdScore)
+    clearInterval(self.intervalIdGame);
     self.gameContainer.remove();
 }
 
@@ -125,10 +139,10 @@ Game.prototype.movePlayer = function (direction) {
     self.player.update(direction);
 }
 
-Game.prototype.updateLifeInformation = function () {
+Game.prototype.updateLifeInfo = function () {
     var self = this;
     
-    self.lifeInfo.innerText = self.health + "%";
+    self.lifeInfo.innerText = 'Life: ' + self.health + '%';
 }
 
 Game.prototype.checkIsDead = function() {
@@ -217,10 +231,15 @@ Game.prototype.buildLayout = function() {
     var informationTittle = document.createElement('h1');
     informationTittle.innerText = 'Info:';
 
+    self.scoreInfo = document.createElement('p');
+    self.scoreInfo.innerText = "0";
+
+
     self.lifeInfo = document.createElement('p');
     self.lifeInfo.innerText = '100%';
 
     gameInfo.appendChild(informationTittle);
+    gameInfo.appendChild(self.scoreInfo);
     gameInfo.appendChild(self.lifeInfo);
     self.gameContainer.appendChild(gameInfo);
 }

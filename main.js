@@ -47,12 +47,9 @@ function main (){
     
     // -- GAME  
     var game;
-    var gameover;
-    var gameContainer;
 
     function buildGame() {
         stage = 'game';
-        gameover = false;
 
         game = new Game(mainContainer);
         game.onGameOver(function (score){
@@ -62,7 +59,6 @@ function main (){
     }
 
     function destroyGame() {
-        //clear Intervals
         game.destroy();
     }
 
@@ -76,7 +72,7 @@ function main (){
         buildSplash();
     }
 
-    function buildGameOver() {
+    function buildGameOver(score) {
         stage = 'gameover';
         gameOverContainer = document.createElement('div');
         gameOverContainer.setAttribute('id', 'game-over-container');
@@ -89,7 +85,7 @@ function main (){
 
         var gameOverInfo = document.createElement('div');
         gameOverInfo.classList.add('game-over-info');
-        gameOverInfo.innerHTML = '<p>Score : 1500<p/><p>Ranking :<p/><p>Player 1 : 50000 points<p/><p>Player 2 : 44000 points<p/><p>Player 3 : 40000 points<p/>';
+        gameOverInfo.innerHTML = 'Your score is ' + score + ' points.  Keep Playing.';
         gameOverContainer.appendChild(gameOverInfo);
 
         playAgainButton = document.createElement('button');
