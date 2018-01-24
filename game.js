@@ -7,11 +7,17 @@ function Game (mainContainer) {
     self.mainContainer = mainContainer;
     self.gameContainer;
     self.gameSurface;
+    self.lifeInfo;
     self.intervalTime;
     self.size;
+
     self.enemies;
+    self.damage;
+
     self.player;
+    self.health;
     self.handleKeyPress;
+    self.onEnded;
 
     self.handleKeyPress = function (event) {
         self.clearPlayer();
@@ -32,7 +38,7 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.intervalTime = 1000;
+    self.intervalTime = 400;
     self.size = 10;
     self.enemies = [];
 
@@ -62,15 +68,15 @@ Game.prototype.start = function () {
 
 Game.prototype.checkCollisions = function () {
     var self = this;
-    // if (self.enemies !== undefined) {
     self.enemies.forEach(function (enemy, index) {
         if(enemy.y === self.size -1) {
             if(enemy.x === self.player.x) {
                 enemy.clear();
                 self.enemies.splice(index, 1);
-                // self.player.recieveDamage(enemy.doDamage());
+                self.health = self.player.recieveDamage(enemy.hitPlayer());
                 self.player.drawCollision();
-                // self.player.checkIsDead();
+                self.updateLifeInformation();
+                self.checkIsDead();
 
                 window.setTimeout(function() {
                     self.player.draw();
@@ -80,19 +86,29 @@ Game.prototype.checkCollisions = function () {
     })
 }
 
-Game.prototype.checkIsDead = function() {
+Game.prototype.updateLifeInformation = function () {
+    var self = this;
 
-    //player.healt <= 0 -> gameOVER!
+    self.lifeInfo.innerText = self.health + "%";
+}
+
+Game.prototype.checkIsDead = function() {
+    var self = this;
+    
+    if (self.health < 0) {
+       self.onEnded();
+    }
 }
 
 // Player Functions    
 Game.prototype.createPlayer = function () {
     var self = this;
     
+    self.health = 100;
     var startPlayerX = Math.floor(self.size/2);
     var startPlayerY = self.size -1;
     
-    self.player = new Player (startPlayerX, startPlayerY, self.gameSurface, self.size);
+    self.player = new Player (startPlayerX, startPlayerY, self.gameSurface, self.size, self.health);
 }
 
 Game.prototype.clearPlayer = function () {
@@ -144,8 +160,9 @@ Game.prototype.createEnemy = function () {
 
     var randomX = Math.floor(Math.random()*self.size);
     var fixY = 0;
+    self.damage = 20;
 
-    var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size);
+    var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.damage);
     self.enemies.push(newEnemy);
 }
 
@@ -184,8 +201,16 @@ Game.prototype.buildLayout = function() {
     }
     
     var gameInfo = document.createElement('div');
-    gameInfo.innerHTML = '<h3>Game Information<h3/><p>Score : 00<p/><p>Time : 00:00<p/><p>Life : 100%<p/>';
     gameInfo.classList.add('game-info');
+
+    var informationTittle = document.createElement('h1');
+    informationTittle.innerText = 'Info:';
+
+    self.lifeInfo = document.createElement('p');
+    self.lifeInfo.innerText = '100%';
+
+    gameInfo.appendChild(informationTittle);
+    gameInfo.appendChild(self.lifeInfo);
     self.gameContainer.appendChild(gameInfo);
 }
 
@@ -193,4 +218,8 @@ Game.prototype.buildLayout = function() {
 
 
 
-    
+    Game.prototype.onGameOver = function (callBack) {
+        var self = this;
+
+        self.onEnded = callBack; 
+    }

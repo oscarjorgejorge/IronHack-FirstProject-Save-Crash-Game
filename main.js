@@ -47,9 +47,12 @@ function main (){
     
     // -- GAME  
     var game;
+    var gameover;
+    var gameContainer;
 
     function buildGame() {
         stage = 'game';
+        gameover = false;
 
         game = new Game(mainContainer);
         
@@ -59,6 +62,11 @@ function main (){
         gameContainer.remove();
 
     }
+
+    game.onGameOver(function (){
+        destroyGame();
+        buildGameOver();
+    });
 
     // -- GAME OVER
     var gameOverContainer;
@@ -98,7 +106,7 @@ function main (){
         playAgainButton.removeEventListener('click', handlePlayAgainClick);
     }
     
-    buildGame();
+    buildSplash();
 }
 
 window.onload = main;

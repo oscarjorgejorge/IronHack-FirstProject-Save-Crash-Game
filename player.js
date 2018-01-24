@@ -7,7 +7,7 @@ function Player (x, y, gameSurface, size, health) {
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
-    // self.health = health;
+    self.health = health;
 };
 
 Player.prototype.update = function(direction) {
@@ -24,9 +24,11 @@ Player.prototype.update = function(direction) {
     }
 }
 
-// Player.prototype.recieveDamage = function (dmg) {
-//     self.health -= dmg;
-// }
+Player.prototype.recieveDamage = function (damage) {
+    var self = this;
+    
+    return self.health -= damage;
+}
 
 Player.prototype._getCellPlayer = function () {
     var self = this;
