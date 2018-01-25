@@ -9,7 +9,7 @@ function Game (mainContainer) {
     self.gameSurface;
     self.size;
     self.score;
-    self.intervalTime;
+    self.timeoutTime;
     self.intervalIdGame;
     self.intervalIdScore;
     self.handleKeyPress;
@@ -43,11 +43,10 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.size = 10;
+    self.size = 8;
     self.score = 0;
     self.enemies = [];
     
-    self.intervalTime = 1000;
     document.addEventListener('keydown', self.handleKeyPress);
 
     self.buildLayout();
@@ -62,41 +61,79 @@ Game.prototype.start = function () {
 
     self.intervalIdScore = setInterval  (function (){
         self.calculateScore();
-        self.controlTime();
+        // self.controlTime();
         
     }, 1000)
     
-    self.intervalIdGame = setInterval (function () {
+    var gameTimeControler = function () {
+        if (self.score <= 10) {
+            self.timeoutTime = 1000;
+        } else if (self.score > 10 && self.score < 20) {
+            self.timeoutTime = 900;
+        } else if (self.score >= 20 && self.score < 30) {
+            self.timeoutTime = 800;
+        } else if (self.score >= 30 && self.score < 40) {
+            self.timeoutTime = 700;
+        } else if (self.score >= 40 && self.score < 50) {
+            self.timeoutTime = 600;
+        } else if (self.score >= 50 && self.score < 60) {
+            self.timeoutTime = 500;
+        } else if (self.score >= 60 && self.score < 70) {
+            self.timeoutTime = 400;
+        } else if (self.score >= 70 && self.score < 80) {
+            self.timeoutTime = 300;
+        } else if (self.score >= 80 && self.score <=90) {
+            self.timeoutTime = 200;
+        } else {
+            self.timeoutTime = 100;
+        }
+
         self.clearEnemies();
         self.moveEnemies();
         self.checkEnemiesDead();
         self.createEnemy();
         self.drawEnemies();
         self.checkCollisions();
+
+        console.log(self.timeoutTime);
+            if (self.health > 0) {
+                setTimeout(gameTimeControler, self.timeoutTime);
+            }
+        }
+
+    window.setTimeout(gameTimeControler, self.timeoutTime);
+
+    // self.intervalIdGame = setInterval (function () {
+    //     self.clearEnemies();
+    //     self.moveEnemies();
+    //     self.checkEnemiesDead();
+    //     self.createEnemy();
+    //     self.drawEnemies();
+    //     self.checkCollisions();
         
-    }, self.intervalTime)
+    // }, self.intervalTime)
 }
 
-Game.prototype.controlTime = function () {
-    var self = this;
+// Game.prototype.controlTime = function () {
+//     var self = this;
 
-    if (self.score <= 10) {
-        self.intervalTime = 1000;
-    } else if (self.score > 10 && self.score < 20) {
-        self.intervalTime = 900;
-    } else if (self.score >= 20 && self.score < 30) {
-        self.intervalTime = 800;
-    } else if (self.score >= 30 && self.score < 40) {
-        self.intervalTime = 700;
-    } else if (self.score >= 40 && self.score < 50) {
-        self.intervalTime = 600;
-    } else if (self.score >= 50 && self.score <= 60) {
-        self.intervalTime = 500;
-    } else {
-        self.intervalTime = 400;
-    }
-    console.log(self.intervalTime);
-}
+//     if (self.score <= 10) {
+//         self.intervalTime = 1000;
+//     } else if (self.score > 10 && self.score < 20) {
+//         self.intervalTime = 900;
+//     } else if (self.score >= 20 && self.score < 30) {
+//         self.intervalTime = 800;
+//     } else if (self.score >= 30 && self.score < 40) {
+//         self.intervalTime = 700;
+//     } else if (self.score >= 40 && self.score < 50) {
+//         self.intervalTime = 600;
+//     } else if (self.score >= 50 && self.score <= 60) {
+//         self.intervalTime = 500;
+//     } else {
+//         self.intervalTime = 400;
+//     }
+//     console.log(self.intervalTime);
+// }
 
 Game.prototype.calculateScore = function () {
     var self = this;
@@ -130,7 +167,7 @@ Game.prototype.destroy = function () {
     var self = this;
 
     clearInterval(self.intervalIdScore)
-    clearInterval(self.intervalIdGame);
+    // clearInterval(self.intervalIdGame);
     self.gameContainer.remove();
 }
 
@@ -220,6 +257,8 @@ Game.prototype.createEnemy = function () {
         self.hitPower = 30;  
     } else if (self.score >= 30) {
         self.hitPower = 40;
+    } else {
+        self.hitPower = 50;
     }
 
     var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.hitPower);
@@ -235,7 +274,7 @@ Game.prototype.createEnemy = function () {
 //     var fixY = 0;
 //     self.damage = 40;
 
-//     var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.damage);
+//     var newEnemy = new Obstacle (randomX, secondX, fixY, self.gameSurface, self.size, self.damage);
 //     self.enemies.push(newEnemy);
 // }
 
