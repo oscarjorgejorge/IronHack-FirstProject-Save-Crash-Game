@@ -20,6 +20,7 @@ function Game (mainContainer) {
     self.enemiesInfoHitPower;
 
     self.enemies;
+    self.enemiesLevels;
     self.hitPower;
 
     self.player;
@@ -71,15 +72,14 @@ Game.prototype.start = function () {
         self.clearEnemies();
         self.moveEnemies();
         self.checkEnemiesDead();
-        self.createEnemyLevelOne();
+        self.createEnemiesControl();
         self.drawEnemies();
         self.checkCollisions();
 
-        console.log(self.timeoutTime);
-            if (self.health > 0) {
-                setTimeout(gameTimeControler, self.timeoutTime);
-            } else {
-                self.checkEnemiesDead();
+        if (self.health > 0) {
+            setTimeout(gameTimeControler, self.timeoutTime);
+        } else {
+            self.checkEnemiesDead();
             }
         }
 
@@ -89,23 +89,23 @@ Game.prototype.start = function () {
 Game.prototype.controlTime = function () {
     var self = this;
 
-    if (self.score <= 10) {
+    if (self.score <= 5) {
         self.timeoutTime = 1000;
-    } else if (self.score > 10 && self.score < 20) {
+    } else if (self.score > 5 && self.score < 10) {
         self.timeoutTime = 900;
-    } else if (self.score >= 20 && self.score < 30) {
+    } else if (self.score >= 10 && self.score < 15) {
         self.timeoutTime = 800;
-    } else if (self.score >= 30 && self.score < 40) {
+    } else if (self.score >= 15 && self.score < 25) {
         self.timeoutTime = 700;
-    } else if (self.score >= 40 && self.score < 50) {
+    } else if (self.score >= 25 && self.score < 35) {
         self.timeoutTime = 600;
-    } else if (self.score >= 50 && self.score < 60) {
+    } else if (self.score >= 35 && self.score < 45) {
         self.timeoutTime = 500;
-    } else if (self.score >= 60 && self.score < 70) {
+    } else if (self.score >= 45 && self.score < 55) {
         self.timeoutTime = 400;
-    } else if (self.score >= 70 && self.score < 80) {
+    } else if (self.score >= 55 && self.score < 70) {
         self.timeoutTime = 300;
-    } else if (self.score >= 80 && self.score <=90) {
+    } else if (self.score >= 70 && self.score <=90) {
         self.timeoutTime = 200;
     } else {
         self.timeoutTime = 100;
@@ -123,18 +123,21 @@ Game.prototype.checkCollisions = function () {
     var self = this;
     self.enemies.forEach(function (enemy, index) {
         if(enemy.y === self.size -1) {
-            if(enemy.x === self.player.x) {
+            if(enemy.firstX === self.player.x || enemy.secondX === self.player.x || enemy.thirdX ===self.player.x) {
                 enemy.clear();
                 self.enemies.splice(index, 1);
                 var damage = enemy.hitPlayer();
                 self.health = self.player.recieveDamage(damage);
                 self.playerDamageReceived.innerText = 'Damage received: ' + damage;
+                
                 window.setTimeout(function (){
                     self.playerDamageReceived.innerText = 'Damage received: ';
                 }, 2000);
+
                 self.player.drawCollision();
                 self.updateLifeInfo();
                 self.checkIsDead();
+
                 window.setTimeout(function() {
                     self.player.draw();
                 }, 300);
@@ -220,35 +223,10 @@ Game.prototype.checkEnemiesDead = function () {
     })
 }
 
-// Game.prototype.createEnemy = function () {
-//     var self = this;
-
-//     var randomX = Math.floor(Math.random()*self.size);
-//     var fixY = 0;
-
-
-//     if (self.score < 5) {
-//         self.hitPower = 5;
-//     } else if (self.score >= 5 && self.score < 10) {
-//         self.hitPower = 10;
-//     } else if (self.score >= 10 && self.score < 20) {
-//         self.hitPower = 20;
-//     } else if (self.score >= 20 && self.score < 30) {
-//         self.hitPower = 30;  
-//     } else if (self.score >= 30) {
-//         self.hitPower = 40;
-//     } else {
-//         self.hitPower = 50;
-//     }
-
-//     var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.hitPower);
-//     self.enemies.push(newEnemy);
-//     self.enemiesInfo.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
-// }
 
 Game.prototype.hitPowerControl = function () {
     var self = this;
-
+    
     if (self.score < 5) {
         self.hitPower = 5;
     } else if (self.score >= 5 && self.score < 10) {
@@ -268,15 +246,72 @@ Game.prototype.createEnemyLevelOne = function () {
     var self = this;
 
     self.hitPowerControl();
-
     var randomX = Math.floor(Math.random()*self.size);
     var secondX = randomX;
+    var thirdX = randomX;
     var fixY = 0;
-
-    var newEnemy = new Obstacle (randomX, secondX, fixY, self.gameSurface, self.size, self.hitPower);
+    
+    var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
     self.enemies.push(newEnemy);
     self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
 }
+
+Game.prototype.createEnemyLevelTwo = function () {
+    var self = this;
+
+    self.hitPowerControl();
+    var randomX = Math.floor(Math.random()*(self.size -1));
+    var secondX = randomX +1;
+    var thirdX = secondX;
+    var fixY = 0;
+
+    var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
+    self.enemies.push(newEnemy);
+    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+}
+
+Game.prototype.createEnemyLevelThree = function () {
+    var self = this;
+
+    self.hitPowerControl();
+    var randomX = Math.floor(Math.random()*(self.size -2));
+    var secondX = randomX +1;
+    var thirdX = randomX +2;
+    var fixY = 0;
+
+    var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
+    self.enemies.push(newEnemy);
+    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+}
+
+Game.prototype.createEnemiesControl = function () {
+    var self = this;
+    
+    var randomLevel;
+    self.enemiesLevels = [];
+    
+
+    if (self.score <= 10) {
+        self.createEnemyLevelOne();
+    } else if (self.score > 10 && self.score <20) {
+        randomLevel = Math.floor(Math.random()*2);
+            if (randomLevel === 0) {
+                self.createEnemyLevelOne();
+            } else {
+                self.createEnemyLevelTwo();
+            }
+    } else if (self.score >= 20) {
+        randomLevel = Math.floor(Math.random()*3);
+        if (randomLevel === 0) {
+            self.createEnemyLevelOne();
+        } else if (randomLevel === 1) {
+            self.createEnemyLevelTwo();
+        }  else {
+            self.createEnemyLevelThree();            
+        }
+    }
+}
+
 
 Game.prototype.drawEnemies = function () {
     var self = this;
@@ -319,7 +354,7 @@ Game.prototype.buildLayout = function() {
     informationTittle.innerText = 'Informations:';
 
     self.scoreInfo = document.createElement('p');
-    self.scoreInfo.innerText = "0 points";
+    self.scoreInfo.innerText = "Score: 0 points";
 
     self.lifeInfo = document.createElement('p');
     self.lifeInfo.innerText = 'Life: 100%';

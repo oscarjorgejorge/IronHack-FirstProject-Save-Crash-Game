@@ -1,10 +1,11 @@
 'use strict';
 
-function Obstacle (x, secondx, y, gameSurface, size, hitPower) {
+function Obstacle (firstX, secondX, thirdX, y, gameSurface, size, hitPower) {
     var self = this;
     
-    self.x = x;
-    self.secondx = secondx;
+    self.firstX = firstX;
+    self.secondX = secondX;
+    self.thirdX = thirdX;
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
@@ -16,12 +17,14 @@ function Obstacle (x, secondx, y, gameSurface, size, hitPower) {
 Obstacle.prototype._getCellEnemy = function () {
     var self = this;
     
-    var columnEnemy = self.gameSurface.children[self.x];
-    var secondColumnEnemy = self.gameSurface.children[self.secondx];
+    var firstColumnEnemy = self.gameSurface.children[self.firstX];
+    var secondColumnEnemy = self.gameSurface.children[self.secondX];
+    var thirdColumnEnemy = self.gameSurface.children[self.thirdX];
 
-    var firstCellEnemy = columnEnemy.children[self.y];
-    var secondCellEnemy =secondColumnEnemy.children[self.y];
-    var cellsEnemies = [firstCellEnemy, secondCellEnemy];
+    var firstCellEnemy = firstColumnEnemy.children[self.y];
+    var secondCellEnemy = secondColumnEnemy.children[self.y];
+    var thirdCellEnemy = thirdColumnEnemy.children[self.y];
+    var cellsEnemies = [firstCellEnemy, secondCellEnemy, thirdCellEnemy];
     return cellsEnemies;
 }
 
