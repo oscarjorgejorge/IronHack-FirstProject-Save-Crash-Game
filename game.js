@@ -16,7 +16,8 @@ function Game (mainContainer) {
     self.onEnded;
     self.scoreInfo;
     self.lifeInfo;
-    self.enemiesInfo;
+    self.playerDamageReceived   ;
+    self.enemiesInfoHitPower;
 
     self.enemies;
     self.hitPower;
@@ -43,7 +44,7 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.size = 8;
+    self.size = 10;
     self.score = 0;
     self.enemies = [];
     
@@ -61,79 +62,55 @@ Game.prototype.start = function () {
 
     self.intervalIdScore = setInterval  (function (){
         self.calculateScore();
-        // self.controlTime();
         
     }, 1000)
     
     var gameTimeControler = function () {
-        if (self.score <= 10) {
-            self.timeoutTime = 1000;
-        } else if (self.score > 10 && self.score < 20) {
-            self.timeoutTime = 900;
-        } else if (self.score >= 20 && self.score < 30) {
-            self.timeoutTime = 800;
-        } else if (self.score >= 30 && self.score < 40) {
-            self.timeoutTime = 700;
-        } else if (self.score >= 40 && self.score < 50) {
-            self.timeoutTime = 600;
-        } else if (self.score >= 50 && self.score < 60) {
-            self.timeoutTime = 500;
-        } else if (self.score >= 60 && self.score < 70) {
-            self.timeoutTime = 400;
-        } else if (self.score >= 70 && self.score < 80) {
-            self.timeoutTime = 300;
-        } else if (self.score >= 80 && self.score <=90) {
-            self.timeoutTime = 200;
-        } else {
-            self.timeoutTime = 100;
-        }
-
+        self.controlTime();
+        
         self.clearEnemies();
         self.moveEnemies();
         self.checkEnemiesDead();
-        self.createEnemy();
+        self.createEnemyLevelOne();
         self.drawEnemies();
         self.checkCollisions();
 
         console.log(self.timeoutTime);
             if (self.health > 0) {
                 setTimeout(gameTimeControler, self.timeoutTime);
+            } else {
+                self.checkEnemiesDead();
             }
         }
 
     window.setTimeout(gameTimeControler, self.timeoutTime);
-
-    // self.intervalIdGame = setInterval (function () {
-    //     self.clearEnemies();
-    //     self.moveEnemies();
-    //     self.checkEnemiesDead();
-    //     self.createEnemy();
-    //     self.drawEnemies();
-    //     self.checkCollisions();
-        
-    // }, self.intervalTime)
 }
 
-// Game.prototype.controlTime = function () {
-//     var self = this;
+Game.prototype.controlTime = function () {
+    var self = this;
 
-//     if (self.score <= 10) {
-//         self.intervalTime = 1000;
-//     } else if (self.score > 10 && self.score < 20) {
-//         self.intervalTime = 900;
-//     } else if (self.score >= 20 && self.score < 30) {
-//         self.intervalTime = 800;
-//     } else if (self.score >= 30 && self.score < 40) {
-//         self.intervalTime = 700;
-//     } else if (self.score >= 40 && self.score < 50) {
-//         self.intervalTime = 600;
-//     } else if (self.score >= 50 && self.score <= 60) {
-//         self.intervalTime = 500;
-//     } else {
-//         self.intervalTime = 400;
-//     }
-//     console.log(self.intervalTime);
-// }
+    if (self.score <= 10) {
+        self.timeoutTime = 1000;
+    } else if (self.score > 10 && self.score < 20) {
+        self.timeoutTime = 900;
+    } else if (self.score >= 20 && self.score < 30) {
+        self.timeoutTime = 800;
+    } else if (self.score >= 30 && self.score < 40) {
+        self.timeoutTime = 700;
+    } else if (self.score >= 40 && self.score < 50) {
+        self.timeoutTime = 600;
+    } else if (self.score >= 50 && self.score < 60) {
+        self.timeoutTime = 500;
+    } else if (self.score >= 60 && self.score < 70) {
+        self.timeoutTime = 400;
+    } else if (self.score >= 70 && self.score < 80) {
+        self.timeoutTime = 300;
+    } else if (self.score >= 80 && self.score <=90) {
+        self.timeoutTime = 200;
+    } else {
+        self.timeoutTime = 100;
+    }
+}
 
 Game.prototype.calculateScore = function () {
     var self = this;
@@ -149,11 +126,15 @@ Game.prototype.checkCollisions = function () {
             if(enemy.x === self.player.x) {
                 enemy.clear();
                 self.enemies.splice(index, 1);
-                self.health = self.player.recieveDamage(enemy.hitPlayer());
+                var damage = enemy.hitPlayer();
+                self.health = self.player.recieveDamage(damage);
+                self.playerDamageReceived.innerText = 'Damage received: ' + damage;
+                window.setTimeout(function (){
+                    self.playerDamageReceived.innerText = 'Damage received: ';
+                }, 2000);
                 self.player.drawCollision();
                 self.updateLifeInfo();
                 self.checkIsDead();
-                
                 window.setTimeout(function() {
                     self.player.draw();
                 }, 300);
@@ -167,7 +148,6 @@ Game.prototype.destroy = function () {
     var self = this;
 
     clearInterval(self.intervalIdScore)
-    // clearInterval(self.intervalIdGame);
     self.gameContainer.remove();
 }
 
@@ -240,12 +220,34 @@ Game.prototype.checkEnemiesDead = function () {
     })
 }
 
-Game.prototype.createEnemy = function () {
+// Game.prototype.createEnemy = function () {
+//     var self = this;
+
+//     var randomX = Math.floor(Math.random()*self.size);
+//     var fixY = 0;
+
+
+//     if (self.score < 5) {
+//         self.hitPower = 5;
+//     } else if (self.score >= 5 && self.score < 10) {
+//         self.hitPower = 10;
+//     } else if (self.score >= 10 && self.score < 20) {
+//         self.hitPower = 20;
+//     } else if (self.score >= 20 && self.score < 30) {
+//         self.hitPower = 30;  
+//     } else if (self.score >= 30) {
+//         self.hitPower = 40;
+//     } else {
+//         self.hitPower = 50;
+//     }
+
+//     var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.hitPower);
+//     self.enemies.push(newEnemy);
+//     self.enemiesInfo.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+// }
+
+Game.prototype.hitPowerControl = function () {
     var self = this;
-
-    var randomX = Math.floor(Math.random()*self.size);
-    var fixY = 0;
-
 
     if (self.score < 5) {
         self.hitPower = 5;
@@ -260,23 +262,21 @@ Game.prototype.createEnemy = function () {
     } else {
         self.hitPower = 50;
     }
-
-    var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.hitPower);
-    self.enemies.push(newEnemy);
-    self.enemiesInfo.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
 }
 
-// Game.prototype.createEnemyLevelOne = function () {
-//     var self = this;
+Game.prototype.createEnemyLevelOne = function () {
+    var self = this;
 
-//     var randomX = Math.floor(Math.random()*self.size);
-//     var secondX = randomX +1;
-//     var fixY = 0;
-//     self.damage = 40;
+    self.hitPowerControl();
 
-//     var newEnemy = new Obstacle (randomX, secondX, fixY, self.gameSurface, self.size, self.damage);
-//     self.enemies.push(newEnemy);
-// }
+    var randomX = Math.floor(Math.random()*self.size);
+    var secondX = randomX;
+    var fixY = 0;
+
+    var newEnemy = new Obstacle (randomX, secondX, fixY, self.gameSurface, self.size, self.hitPower);
+    self.enemies.push(newEnemy);
+    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+}
 
 Game.prototype.drawEnemies = function () {
     var self = this;
@@ -318,20 +318,23 @@ Game.prototype.buildLayout = function() {
     var informationTittle = document.createElement('h1');
     informationTittle.innerText = 'Informations:';
 
-    self.enemiesInfo = document.createElement('p');
-    self.enemiesInfo.innerText = 'Enemies with hit power: 0';
-
     self.scoreInfo = document.createElement('p');
     self.scoreInfo.innerText = "0 points";
-
 
     self.lifeInfo = document.createElement('p');
     self.lifeInfo.innerText = 'Life: 100%';
 
+    self.playerDamageReceived = document.createElement('p');
+    self.playerDamageReceived.innerText = 'Damage received ';
+
+    self.enemiesInfoHitPower = document.createElement('p');
+    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: 0';
+
     gameInfo.appendChild(informationTittle);
-    gameInfo.appendChild(self.enemiesInfo);
     gameInfo.appendChild(self.scoreInfo);
     gameInfo.appendChild(self.lifeInfo);
+    gameInfo.appendChild(self.playerDamageReceived);
+    gameInfo.appendChild(self.enemiesInfoHitPower);
     self.gameContainer.appendChild(gameInfo);
 }
 

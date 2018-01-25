@@ -1,9 +1,10 @@
 'use strict';
 
-function Obstacle (x, y, gameSurface, size, hitPower) {
+function Obstacle (x, secondx, y, gameSurface, size, hitPower) {
     var self = this;
     
     self.x = x;
+    self.secondx = secondx;
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
@@ -16,19 +17,21 @@ Obstacle.prototype._getCellEnemy = function () {
     var self = this;
     
     var columnEnemy = self.gameSurface.children[self.x];
-    // var secondColumnEnemy = self.gameSurface.children[self.secondx];
+    var secondColumnEnemy = self.gameSurface.children[self.secondx];
 
-    var cellEnemy = columnEnemy.children[self.y];
-    // var secondCellEnemy =secondColumnEnemy.children[self.y];
-
-    return cellEnemy; //+ secondCellEnemy;
+    var firstCellEnemy = columnEnemy.children[self.y];
+    var secondCellEnemy =secondColumnEnemy.children[self.y];
+    var cellsEnemies = [firstCellEnemy, secondCellEnemy];
+    return cellsEnemies;
 }
 
 Obstacle.prototype.clear = function () {
     var self = this;
     
-    var cellEnemy = self._getCellEnemy();
-    cellEnemy.style.backgroundColor = 'white';
+    var cellsEnemies = self._getCellEnemy();
+    cellsEnemies.forEach(function (enemy) {
+        enemy.style.backgroundColor = 'white';
+    })      
 }
 
 
@@ -50,8 +53,10 @@ Obstacle.prototype.move = function () {
 Obstacle.prototype.draw = function () {
     var self = this;
     
-    var cellEnemy = self._getCellEnemy();
-    cellEnemy.style.backgroundColor = 'red';
+    var cellsEnemies = self._getCellEnemy();
+    cellsEnemies.forEach(function (enemy) {
+        enemy.style.backgroundColor = 'red';
+    })
 }
 
 Obstacle.prototype.hitPlayer = function() {
