@@ -1,13 +1,13 @@
 'use strict';
 
-function Obstacle (x, y, gameSurface, size, damage) {
+function Obstacle (x, y, gameSurface, size, hitPower) {
     var self = this;
     
     self.x = x;
     self.y = y;
     self.gameSurface = gameSurface;
     self.size = size;
-    self.damage = damage;
+    self.hitPower = hitPower;
     self.isAlive = true;
 
 } 
@@ -16,12 +16,12 @@ Obstacle.prototype._getCellEnemy = function () {
     var self = this;
     
     var columnEnemy = self.gameSurface.children[self.x];
-    // var secondColumnEnemy = self.gameSurface.children[(self.x) +1];
+    // var secondColumnEnemy = self.gameSurface.children[self.secondx];
 
     var cellEnemy = columnEnemy.children[self.y];
     // var secondCellEnemy =secondColumnEnemy.children[self.y];
 
-    return cellEnemy;
+    return cellEnemy; //+ secondCellEnemy;
 }
 
 Obstacle.prototype.clear = function () {
@@ -57,6 +57,8 @@ Obstacle.prototype.draw = function () {
 Obstacle.prototype.hitPlayer = function() {
     var self = this;
 
-    return Math.floor(Math.random()*self.damage);    
+    var damage = Math.floor(Math.random()*self.hitPower);
+    console.log(damage);
+    return damage;    
 }
 

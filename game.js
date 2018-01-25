@@ -9,16 +9,17 @@ function Game (mainContainer) {
     self.gameSurface;
     self.size;
     self.score;
-    self.scoreInfo;
-    self.lifeInfo;
     self.intervalTime;
     self.intervalIdGame;
     self.intervalIdScore;
     self.handleKeyPress;
     self.onEnded;
+    self.scoreInfo;
+    self.lifeInfo;
+    self.enemiesInfo;
 
     self.enemies;
-    self.damage;
+    self.hitPower;
 
     self.player;
     self.health;
@@ -42,11 +43,11 @@ function Game (mainContainer) {
 Game.prototype.init = function () {
     var self = this;
 
-    self.size = 8;
+    self.size = 10;
     self.score = 0;
     self.enemies = [];
     
-    self.intervalTime = 400;
+    self.intervalTime = 500;
     document.addEventListener('keydown', self.handleKeyPress);
 
     self.buildLayout();
@@ -62,7 +63,7 @@ Game.prototype.start = function () {
     self.intervalIdScore = setInterval  (function (){
         self.calculateScore();
 
-    }, 2000)
+    }, 1000)
     
     self.intervalIdGame = setInterval (function () {
         self.clearEnemies();
@@ -185,11 +186,36 @@ Game.prototype.createEnemy = function () {
 
     var randomX = Math.floor(Math.random()*self.size);
     var fixY = 0;
-    self.damage = 20;
 
-    var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.damage);
+
+    if (self.score < 5) {
+        self.hitPower = 5;
+    } else if (self.score >= 5 && self.score < 10) {
+        self.hitPower = 10;
+    } else if (self.score >= 10 && self.score < 20) {
+        self.hitPower = 20;
+    } else if (self.score >= 20 && self.score < 30) {
+        self.hitPower = 30;  
+    } else if (self.score >= 30) {
+        self.hitPower = 40;
+    }
+
+    var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.hitPower);
     self.enemies.push(newEnemy);
+    self.enemiesInfo.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
 }
+
+// Game.prototype.createEnemyLevelOne = function () {
+//     var self = this;
+
+//     var randomX = Math.floor(Math.random()*self.size);
+//     var secondX = randomX +1;
+//     var fixY = 0;
+//     self.damage = 40;
+
+//     var newEnemy = new Obstacle (randomX, fixY, self.gameSurface, self.size, self.damage);
+//     self.enemies.push(newEnemy);
+// }
 
 Game.prototype.drawEnemies = function () {
     var self = this;
@@ -229,16 +255,20 @@ Game.prototype.buildLayout = function() {
     gameInfo.classList.add('game-info');
 
     var informationTittle = document.createElement('h1');
-    informationTittle.innerText = 'Info:';
+    informationTittle.innerText = 'Informations:';
+
+    self.enemiesInfo = document.createElement('p');
+    self.enemiesInfo.innerText = 'Enemies with hit power: 0';
 
     self.scoreInfo = document.createElement('p');
-    self.scoreInfo.innerText = "0";
+    self.scoreInfo.innerText = "0 points";
 
 
     self.lifeInfo = document.createElement('p');
-    self.lifeInfo.innerText = '100%';
+    self.lifeInfo.innerText = 'Life: 100%';
 
     gameInfo.appendChild(informationTittle);
+    gameInfo.appendChild(self.enemiesInfo);
     gameInfo.appendChild(self.scoreInfo);
     gameInfo.appendChild(self.lifeInfo);
     self.gameContainer.appendChild(gameInfo);
