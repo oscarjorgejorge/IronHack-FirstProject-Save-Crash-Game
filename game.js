@@ -47,7 +47,7 @@ Game.prototype.init = function () {
     self.score = 0;
     self.enemies = [];
     
-    self.intervalTime = 500;
+    self.intervalTime = 1000;
     document.addEventListener('keydown', self.handleKeyPress);
 
     self.buildLayout();
@@ -62,7 +62,8 @@ Game.prototype.start = function () {
 
     self.intervalIdScore = setInterval  (function (){
         self.calculateScore();
-
+        self.controlTime();
+        
     }, 1000)
     
     self.intervalIdGame = setInterval (function () {
@@ -72,8 +73,29 @@ Game.prototype.start = function () {
         self.createEnemy();
         self.drawEnemies();
         self.checkCollisions();
-
+        
     }, self.intervalTime)
+}
+
+Game.prototype.controlTime = function () {
+    var self = this;
+
+    if (self.score <= 10) {
+        self.intervalTime = 1000;
+    } else if (self.score > 10 && self.score < 20) {
+        self.intervalTime = 900;
+    } else if (self.score >= 20 && self.score < 30) {
+        self.intervalTime = 800;
+    } else if (self.score >= 30 && self.score < 40) {
+        self.intervalTime = 700;
+    } else if (self.score >= 40 && self.score < 50) {
+        self.intervalTime = 600;
+    } else if (self.score >= 50 && self.score <= 60) {
+        self.intervalTime = 500;
+    } else {
+        self.intervalTime = 400;
+    }
+    console.log(self.intervalTime);
 }
 
 Game.prototype.calculateScore = function () {
