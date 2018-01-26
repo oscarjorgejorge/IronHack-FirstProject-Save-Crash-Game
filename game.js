@@ -79,7 +79,7 @@ Game.prototype.start = function () {
         if (self.health > 0) {
             setTimeout(gameTimeControler, self.timeoutTime);
         } else {
-            self.checkEnemiesDead();
+            self.checkCollisions();
             }
         }
 
@@ -137,10 +137,6 @@ Game.prototype.checkCollisions = function () {
                 self.player.drawCollision();
                 self.updateLifeInfo();
                 self.checkIsDead();
-
-                // window.setTimeout(function() {
-                //     self.player.draw();
-                // }, 300);
             }
         }
     })
@@ -150,7 +146,8 @@ Game.prototype.checkCollisions = function () {
 Game.prototype.destroy = function () {
     var self = this;
 
-    clearInterval(self.intervalIdScore)
+    clearInterval(self.intervalIdScore);
+    document.removeEventListener('keydown', self.handleKeyPress);
     self.gameContainer.remove();
 }
 

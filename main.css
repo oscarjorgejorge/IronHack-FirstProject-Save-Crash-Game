@@ -26,7 +26,8 @@ html {
     margin-top: 30px;
     background-image: url(./img/fondo-peces.png);
     background-size: cover;
-    padding: 50px;
+    /* background-repeat-x: no-repeat; */
+    padding: 100px 50px 70px 50px;
     display: flex;
     justify-content: center;
 }
@@ -57,8 +58,14 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* background-image: url(./img/back-ground.gif);
-    background-size: cover; */
+}
+
+.img-splash {
+    width: 380px;
+}
+
+.splash-title {
+    margin-bottom: 0px;
 }
 
 .start-button {
@@ -69,11 +76,6 @@ footer {
     background-color: red;
     margin-bottom: 30px;
 }    
-
-.img-splash {
-    margin-bottom: 30px;
-
-}
 
 /*  -- game -- */
 
@@ -101,6 +103,7 @@ footer {
 
 .tittle-info{
     text-decoration: underline;
+    margin-top: 80px;
 }
 
 .score-info {
@@ -130,8 +133,6 @@ footer {
     width: 850px;
     padding: 10px 30px;
     display: flex;
-    /* background-image: url(./img/back-ground.gif);
-    background-size: cover; */
 }
 
 /*  -- game over -- */
@@ -140,14 +141,15 @@ footer {
     color: white;
     text-align: center;
     justify-content: space-between;
-    margin-bottom: 100px;
+    margin-top: 50px;
+    margin-bottom: 70px;
 }
 
 
 
 .game-over-info {
-    background-color: rgb(173, 34, 34);
-    font-size: 40px;    
+    font-size: 40px;
+    color:  rgb(53, 197, 202);   
 }
 
 .play-again-button {
@@ -162,7 +164,6 @@ footer {
 
 #game-over-container {
     width: 850px;
-    background-color: grey;
     padding: 10px 30px;
     display: flex;
     flex-direction: column;

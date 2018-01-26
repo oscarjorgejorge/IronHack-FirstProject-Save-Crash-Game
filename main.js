@@ -23,6 +23,7 @@ function main (){
         mainContainer.appendChild(splashContainer);
 
         var tittle = document.createElement('h1');
+        tittle.classList.add('splash-title');
         tittle.innerText = "Save Crush";
         splashContainer.appendChild(tittle);
 
@@ -85,7 +86,7 @@ function main (){
 
         var gameOverInfo = document.createElement('div');
         gameOverInfo.classList.add('game-over-info');
-        gameOverInfo.innerHTML = 'Your score is ' + score + ' points.  Keep Playing.';
+        gameOverInfo.innerHTML = 'Your score is ' + score + ' points.  Keep Playing and REMEMBER: Dont throw trash to the ocean.';
         gameOverContainer.appendChild(gameOverInfo);
 
         playAgainButton = document.createElement('button');
