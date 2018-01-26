@@ -141,16 +141,20 @@ footer {
     color: white;
     text-align: center;
     justify-content: space-between;
-    margin: 20px 0px;
+    margin: 20px 0px 10px 0px;
 }
 
 .game-over-info {
-    font-size: 40px;
+    font-size: 30px;
     color:  black; 
 }
 
 .happy-img-gameover {
     margin-top: 20px;
+}
+
+.sad-img-gameover {
+    width: 400px;
 }
 
 .play-again-button {

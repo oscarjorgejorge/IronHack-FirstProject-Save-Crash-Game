@@ -107,11 +107,11 @@ Game.prototype.controlTime = function () {
         self.timeoutTime = 600;
     } else if (self.seconds >= 90) {
         self.timeoutTime = 500;
-    } else if (self.seconds >= 80) {
+    } else if (self.seconds >= 60) {
         self.timeoutTime = 400;
-    } else if (self.seconds >= 50) {
+    } else if (self.seconds >= 25) {
         self.timeoutTime = 300;
-    } else if (self.seconds >= 15) {
+    } else if (self.seconds >= 10) {
         self.timeoutTime = 200;
     } else {
         self.timeoutTime = 100;

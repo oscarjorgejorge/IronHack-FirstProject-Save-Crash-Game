@@ -102,7 +102,18 @@ function main (){
         var happyImgGameOver = document.createElement('img');
         happyImgGameOver.classList.add('happy-img-gameover');
         happyImgGameOver.setAttribute('src', './img/happy-tortoise.gif');
-        gameOverContainer.appendChild(happyImgGameOver);
+        // gameOverContainer.appendChild(happyImgGameOver);
+
+        var sadImgGameOver = document.createElement('img');
+        sadImgGameOver.classList.add('sad-img-gameover');
+        sadImgGameOver.setAttribute('src', './img/turtle-trapped.jpg');
+        // gameOverContainer.appendChild(sadImgGameOver);
+
+        if (survivalTime === 0) {
+            gameOverContainer.appendChild(happyImgGameOver);
+        } else {
+            gameOverContainer.appendChild(sadImgGameOver);
+        }
 
         playAgainButton = document.createElement('button');
         playAgainButton.classList.add('play-again-button');
