@@ -141,15 +141,16 @@ footer {
     color: white;
     text-align: center;
     justify-content: space-between;
-    margin-top: 50px;
-    margin-bottom: 70px;
+    margin: 20px 0px;
 }
-
-
 
 .game-over-info {
     font-size: 40px;
-    color:  rgb(53, 197, 202);   
+    color:  black; 
+}
+
+.happy-img-gameover {
+    margin-top: 20px;
 }
 
 .play-again-button {
@@ -158,8 +159,7 @@ footer {
     justify-content: space-between;
     border-radius: 15px;
     font-size: 20px;
-    padding: 10px 30px;
-    margin: 150px 0px;
+    margin-top: 20px;
 }
 
 #game-over-container {

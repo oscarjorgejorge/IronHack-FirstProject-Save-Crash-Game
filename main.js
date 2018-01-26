@@ -9,6 +9,7 @@ function main (){
 
     var splashContainer;
     var startGameButton;
+    var audio = new Audio('./img/music.mp3');
 
     var handlePlayButton = function () {
         destroySplash();
@@ -52,6 +53,8 @@ function main (){
     function buildGame() {
         stage = 'game';
 
+        audio.play();
+
         game = new Game(mainContainer);
         game.onGameOver(function (seconds){
             destroyGame();
@@ -75,6 +78,8 @@ function main (){
 
     function buildGameOver(seconds) {
         stage = 'gameover';
+
+        audio.pause();
         gameOverContainer = document.createElement('div');
         gameOverContainer.setAttribute('id', 'game-over-container');
         mainContainer.appendChild(gameOverContainer);
@@ -85,11 +90,19 @@ function main (){
         gameOverContainer.appendChild(gameOverTittle);
 
         var survivalTime = 120 - seconds;
-
         var gameOverInfo = document.createElement('div');
         gameOverInfo.classList.add('game-over-info');
-        gameOverInfo.innerHTML = 'Crush survived ' + survivalTime + ' seconds, but it was not enough. Fortunately he has 3 second memory, so you can try again  :) And REMEMBER: Don\´t throw trash in the ocean.';
+        if (survivalTime === 0) {
+            gameOverInfo.innerHTML = 'Crush survived!!!!!, he is so happy!!!!!.   REMEMBER: Don\´t throw trash in the ocean.';
+        } else {
+            gameOverInfo.innerHTML = 'Crush survived ' + survivalTime + ' seconds, but it was not enough. Fortunately he has 3 second memory, so you can try again  :) And REMEMBER: Don\´t throw trash in the ocean.';
+        }
         gameOverContainer.appendChild(gameOverInfo);
+
+        var happyImgGameOver = document.createElement('img');
+        happyImgGameOver.classList.add('happy-img-gameover');
+        happyImgGameOver.setAttribute('src', './img/happy-tortoise.gif');
+        gameOverContainer.appendChild(happyImgGameOver);
 
         playAgainButton = document.createElement('button');
         playAgainButton.classList.add('play-again-button');

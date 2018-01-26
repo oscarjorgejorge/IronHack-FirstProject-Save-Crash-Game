@@ -37,7 +37,6 @@ function Game (mainContainer) {
         self.drawPlayer();
         self.checkCollisions();
     }
-
     self.init();
 }
 
@@ -99,24 +98,22 @@ Game.prototype.controlTime = function () {
     var self = this;
 
     if (self.seconds >=115 ) {
-        self.timeoutTime = 1000;
-    } else if (self.seconds >= 110) {
         self.timeoutTime = 900;
-    } else if (self.seconds >= 105) {
+    } else if (self.seconds >= 110) {
         self.timeoutTime = 800;
-    } else if (self.seconds >= 100) {
+    } else if (self.seconds >= 105) {
         self.timeoutTime = 700;
-    } else if (self.seconds >= 90) {
+    } else if (self.seconds >= 100) {
         self.timeoutTime = 600;
-    } else if (self.seconds >= 80) {
+    } else if (self.seconds >= 90) {
         self.timeoutTime = 500;
-    } else if (self.seconds >= 70) {
+    } else if (self.seconds >= 80) {
         self.timeoutTime = 400;
     } else if (self.seconds >= 50) {
         self.timeoutTime = 300;
-    } else if (self.seconds >= 20) {
+    } else if (self.seconds >= 15) {
         self.timeoutTime = 200;
-    } else if (self.seconds >= 10) {
+    } else {
         self.timeoutTime = 100;
     }
 }
