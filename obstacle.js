@@ -33,7 +33,7 @@ Obstacle.prototype.clear = function () {
     
     var cellsEnemies = self._getCellEnemy();
     cellsEnemies.forEach(function (enemy) {
-        enemy.style.backgroundColor = 'white';
+        enemy.classList.remove('obstacles-level1');
     })      
 }
 
@@ -58,7 +58,7 @@ Obstacle.prototype.draw = function () {
     
     var cellsEnemies = self._getCellEnemy();
     cellsEnemies.forEach(function (enemy) {
-        enemy.style.backgroundColor = 'red';
+        enemy.classList.add('obstacles-level1');
     })
 }
 

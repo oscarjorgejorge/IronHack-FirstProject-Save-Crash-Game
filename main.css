@@ -14,17 +14,22 @@ html {
   }
 
   /* --------- layout ---------- */
+#main-main-container {
+    background-image: url(./img/back-ground.gif);
+    background-size: cover;
+    width: 80%;
+    margin: 0 auto;
+}
 
-  #main-container {
-      width: 100%;
-      background-color: rgb(61, 124, 95);; 
-      padding: 50px;
-      display: flex;
-      justify-content: center;
-   
-  }
-
-
+#main-container {
+    width: 100%;
+    margin-top: 30px;
+    background-image: url(./img/fondo-peces.png);
+    background-size: cover;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+}
 
   /* --------- typography ---------- */
 
@@ -41,6 +46,8 @@ html {
 footer {
     background-color: black;
     padding: 15px;
+    width: 80%;
+    margin: 0 auto;
 }    
 
       /*  -- splash -- */
@@ -50,7 +57,8 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: orange;
+    /* background-image: url(./img/back-ground.gif);
+    background-size: cover; */
 }
 
 .start-button {
@@ -69,13 +77,15 @@ footer {
 
 /*  -- game -- */
 
-.obstacles {
-    background-color: red;
+.obstacles-level1 {
+    background-image: url(./img/plastic-can.png);
+    background-size: contain;
+    background-repeat-y: no-repeat;
 }
 
-.game-rows{
-    background-color: white;
-    border: 1px solid red;
+.player-photo {
+    background-image: url(./img/tortoise.png);
+    background-size: cover;
 }
 
 .game-surface {
@@ -83,18 +93,45 @@ footer {
 }
 
 .game-info {
-    background: yellow;
     height: 500px;
     text-align: center;
     flex: 1 0 20%;
     margin-left: 30px;
 }
 
+.tittle-info{
+    text-decoration: underline;
+}
+
+.score-info {
+    margin-bottom: 40px;
+    font-size: 30px;
+    color: white;
+}
+
+.life-info {
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.damage-info {
+    font-size: 25px;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.enemies-hit-power-info{
+    font-size: 25px;
+    color: white;
+}
+
 #game-container {
     width: 850px;
-    background-color: violet;
     padding: 10px 30px;
     display: flex;
+    /* background-image: url(./img/back-ground.gif);
+    background-size: cover; */
 }
 
 /*  -- game over -- */

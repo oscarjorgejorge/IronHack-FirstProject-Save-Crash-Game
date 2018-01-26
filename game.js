@@ -16,7 +16,7 @@ function Game (mainContainer) {
     self.onEnded;
     self.scoreInfo;
     self.lifeInfo;
-    self.playerDamageReceived   ;
+    self.playerDamageReceived;
     self.enemiesInfoHitPower;
 
     self.enemies;
@@ -116,7 +116,7 @@ Game.prototype.calculateScore = function () {
     var self = this;
 
     self.score ++;
-    self.scoreInfo.innerText = 'Score: ' + self.score + ' points';
+    self.scoreInfo.innerText = 'Score: ' + self.score + ' pts';
 }
 
 Game.prototype.checkCollisions = function () {
@@ -138,9 +138,9 @@ Game.prototype.checkCollisions = function () {
                 self.updateLifeInfo();
                 self.checkIsDead();
 
-                window.setTimeout(function() {
-                    self.player.draw();
-                }, 300);
+                // window.setTimeout(function() {
+                //     self.player.draw();
+                // }, 300);
             }
         }
     })
@@ -253,7 +253,7 @@ Game.prototype.createEnemyLevelOne = function () {
     
     var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
     self.enemies.push(newEnemy);
-    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+    self.enemiesInfoHitPower.innerText = 'Enemies hit power: ' + newEnemy.hitPower;
 }
 
 Game.prototype.createEnemyLevelTwo = function () {
@@ -267,7 +267,7 @@ Game.prototype.createEnemyLevelTwo = function () {
 
     var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
     self.enemies.push(newEnemy);
-    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+    self.enemiesInfoHitPower.innerText = 'Enemies hit power: ' + newEnemy.hitPower;
 }
 
 Game.prototype.createEnemyLevelThree = function () {
@@ -281,7 +281,7 @@ Game.prototype.createEnemyLevelThree = function () {
 
     var newEnemy = new Obstacle (randomX, secondX, thirdX, fixY, self.gameSurface, self.size, self.hitPower);
     self.enemies.push(newEnemy);
-    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: ' + newEnemy.hitPower;
+    self.enemiesInfoHitPower.innerText = 'Enemies hit power: ' + newEnemy.hitPower;
 }
 
 Game.prototype.createEnemiesControl = function () {
@@ -351,19 +351,24 @@ Game.prototype.buildLayout = function() {
     gameInfo.classList.add('game-info');
 
     var informationTittle = document.createElement('h1');
+    informationTittle.classList.add('tittle-info');
     informationTittle.innerText = 'Informations:';
 
     self.scoreInfo = document.createElement('p');
-    self.scoreInfo.innerText = "Score: 0 points";
+    self.scoreInfo.classList.add('score-info');
+    self.scoreInfo.innerText = "Score 0 pts";
 
     self.lifeInfo = document.createElement('p');
+    self.lifeInfo.classList.add('life-info');
     self.lifeInfo.innerText = 'Life: 100%';
 
     self.playerDamageReceived = document.createElement('p');
+    self.playerDamageReceived.classList.add('damage-info');
     self.playerDamageReceived.innerText = 'Damage received ';
 
     self.enemiesInfoHitPower = document.createElement('p');
-    self.enemiesInfoHitPower.innerText = 'Enemies with hit power: 0';
+    self.enemiesInfoHitPower.classList.add('enemies-hit-power-info');
+    self.enemiesInfoHitPower.innerText = 'Enemies hit power: 0';
 
     gameInfo.appendChild(informationTittle);
     gameInfo.appendChild(self.scoreInfo);

@@ -23,12 +23,12 @@ function main (){
         mainContainer.appendChild(splashContainer);
 
         var tittle = document.createElement('h1');
-        tittle.innerText = "I am a happy h1";
+        tittle.innerText = "Save Crush";
         splashContainer.appendChild(tittle);
 
         var img = document.createElement('img');
         img.classList.add('img-splash')
-        img.setAttribute('src', './img/28519087.jpg');
+        img.setAttribute('src', './img/tortoise.png');
         img.setAttribute('alt', 'meme');
         splashContainer.appendChild(img);
 

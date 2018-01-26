@@ -43,19 +43,28 @@ Player.prototype.clear = function () {
     var self = this;
 
     var cellPlayer = self._getCellPlayer();
-    cellPlayer.style.backgroundColor = 'white';
+    cellPlayer.classList.remove('player-photo');
 }
 
 Player.prototype.draw = function () {
     var self = this;
 
     var cellPlayer = self._getCellPlayer();
-    cellPlayer.style.backgroundColor = 'blue';
+    cellPlayer.classList.add('player-photo');
 }
+
 
 Player.prototype.drawCollision = function () {
     var self = this;
 
     var cellPlayer = self._getCellPlayer();
-    cellPlayer.style.backgroundColor = 'orange';
+    var imgDizzy = document.createElement('img');
+    imgDizzy.setAttribute('src', './img/dizzy-stars.png');
+    imgDizzy.style.width = '50px';
+    cellPlayer.classList.add('dizzy-player-photo')
+    cellPlayer.appendChild(imgDizzy);
+
+    window.setTimeout(function (){
+        imgDizzy.remove();
+    },400);
 }
