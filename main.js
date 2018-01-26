@@ -53,9 +53,9 @@ function main (){
         stage = 'game';
 
         game = new Game(mainContainer);
-        game.onGameOver(function (score){
+        game.onGameOver(function (seconds){
             destroyGame();
-            buildGameOver(score);
+            buildGameOver(seconds);
         });
     }
 
@@ -73,7 +73,7 @@ function main (){
         buildSplash();
     }
 
-    function buildGameOver(score) {
+    function buildGameOver(seconds) {
         stage = 'gameover';
         gameOverContainer = document.createElement('div');
         gameOverContainer.setAttribute('id', 'game-over-container');
@@ -84,9 +84,11 @@ function main (){
         gameOverTittle.classList.add('game-over-tittle');
         gameOverContainer.appendChild(gameOverTittle);
 
+        var survivalTime = 120 - seconds;
+
         var gameOverInfo = document.createElement('div');
         gameOverInfo.classList.add('game-over-info');
-        gameOverInfo.innerHTML = 'Your score is ' + score + ' points.  Keep Playing and REMEMBER: Dont throw trash to the ocean.';
+        gameOverInfo.innerHTML = 'Crush survived ' + survivalTime + ' seconds, but it was not enough. Fortunately he has 3 second memory, so you can try again  :) And REMEMBER: Don\´t throw trash in the ocean.';
         gameOverContainer.appendChild(gameOverInfo);
 
         playAgainButton = document.createElement('button');

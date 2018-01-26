@@ -8,10 +8,10 @@ function Game (mainContainer) {
     self.gameContainer;
     self.gameSurface;
     self.size;
-    self.score;
+    self.seconds;
     self.timeoutTime;
     self.intervalIdGame;
-    self.intervalIdScore;
+    self.intervalIdSeconds;
     self.handleKeyPress;
     self.onEnded;
     self.scoreInfo;
@@ -46,7 +46,7 @@ Game.prototype.init = function () {
     var self = this;
 
     self.size = 10;
-    self.score = 0;
+    self.seconds = 120;
     self.enemies = [];
     
     document.addEventListener('keydown', self.handleKeyPress);
@@ -61,12 +61,13 @@ Game.prototype.start = function () {
     self.createPlayer();
     self.drawPlayer();
 
-    self.intervalIdScore = setInterval  (function (){
+    self.intervalIdSeconds = setInterval  (function (){
         self.calculateScore();
         
     }, 1000)
     
     var gameTimeControler = function () {
+        self.checkTime();
         self.controlTime();
         
         self.clearEnemies();
@@ -76,7 +77,7 @@ Game.prototype.start = function () {
         self.drawEnemies();
         self.checkCollisions();
 
-        if (self.health > 0) {
+        if (self.health > 0 && self.seconds > 0) {
             setTimeout(gameTimeControler, self.timeoutTime);
         } else {
             self.checkCollisions();
@@ -86,28 +87,36 @@ Game.prototype.start = function () {
     window.setTimeout(gameTimeControler, self.timeoutTime);
 }
 
+Game.prototype.checkTime = function () {
+    var self = this;
+
+    if (self.seconds <= 0) {
+        self.onEnded(self.seconds);
+    }
+}
+ 
 Game.prototype.controlTime = function () {
     var self = this;
 
-    if (self.score <= 5) {
+    if (self.seconds >=115 ) {
         self.timeoutTime = 1000;
-    } else if (self.score > 5 && self.score < 10) {
+    } else if (self.seconds >= 110) {
         self.timeoutTime = 900;
-    } else if (self.score >= 10 && self.score < 15) {
+    } else if (self.seconds >= 105) {
         self.timeoutTime = 800;
-    } else if (self.score >= 15 && self.score < 25) {
+    } else if (self.seconds >= 100) {
         self.timeoutTime = 700;
-    } else if (self.score >= 25 && self.score < 35) {
+    } else if (self.seconds >= 90) {
         self.timeoutTime = 600;
-    } else if (self.score >= 35 && self.score < 45) {
+    } else if (self.seconds >= 80) {
         self.timeoutTime = 500;
-    } else if (self.score >= 45 && self.score < 55) {
+    } else if (self.seconds >= 70) {
         self.timeoutTime = 400;
-    } else if (self.score >= 55 && self.score < 70) {
+    } else if (self.seconds >= 50) {
         self.timeoutTime = 300;
-    } else if (self.score >= 70 && self.score <=90) {
+    } else if (self.seconds >= 20) {
         self.timeoutTime = 200;
-    } else {
+    } else if (self.seconds >= 10) {
         self.timeoutTime = 100;
     }
 }
@@ -115,8 +124,8 @@ Game.prototype.controlTime = function () {
 Game.prototype.calculateScore = function () {
     var self = this;
 
-    self.score ++;
-    self.scoreInfo.innerText = 'Score: ' + self.score + ' pts';
+    self.seconds --;
+    self.scoreInfo.innerText = self.seconds + ' sec to save Crush';
 }
 
 Game.prototype.checkCollisions = function () {
@@ -146,7 +155,7 @@ Game.prototype.checkCollisions = function () {
 Game.prototype.destroy = function () {
     var self = this;
 
-    clearInterval(self.intervalIdScore);
+    clearInterval(self.intervalIdSeconds);
     document.removeEventListener('keydown', self.handleKeyPress);
     self.gameContainer.remove();
 }
@@ -189,7 +198,7 @@ Game.prototype.checkIsDead = function() {
     var self = this;
     
     if (self.health < 0) {
-        self.onEnded(self.score);
+        self.onEnded(self.seconds);
     }
 }
 
@@ -224,18 +233,14 @@ Game.prototype.checkEnemiesDead = function () {
 Game.prototype.hitPowerControl = function () {
     var self = this;
     
-    if (self.score < 5) {
-        self.hitPower = 5;
-    } else if (self.score >= 5 && self.score < 10) {
+    if (self.seconds >= 105) {
         self.hitPower = 10;
-    } else if (self.score >= 10 && self.score < 20) {
+    } else if (self.seconds >= 85) {
         self.hitPower = 20;
-    } else if (self.score >= 20 && self.score < 30) {
-        self.hitPower = 30;  
-    } else if (self.score >= 30) {
-        self.hitPower = 40;
+    } else if (self.seconds >= 50) {
+        self.hitPower = 30;
     } else {
-        self.hitPower = 50;
+        self.hitPower = 40;  
     }
 }
 
@@ -288,16 +293,16 @@ Game.prototype.createEnemiesControl = function () {
     self.enemiesLevels = [];
     
 
-    if (self.score <= 10) {
+    if (self.seconds >= 105) {
         self.createEnemyLevelOne();
-    } else if (self.score > 10 && self.score <20) {
+    } else if (self.seconds >= 75) {
         randomLevel = Math.floor(Math.random()*2);
             if (randomLevel === 0) {
                 self.createEnemyLevelOne();
             } else {
                 self.createEnemyLevelTwo();
             }
-    } else if (self.score >= 20) {
+    } else  {
         randomLevel = Math.floor(Math.random()*3);
         if (randomLevel === 0) {
             self.createEnemyLevelOne();
@@ -353,7 +358,7 @@ Game.prototype.buildLayout = function() {
 
     self.scoreInfo = document.createElement('p');
     self.scoreInfo.classList.add('score-info');
-    self.scoreInfo.innerText = "Score 0 pts";
+    self.scoreInfo.innerText = "120 sec to save Crush";
 
     self.lifeInfo = document.createElement('p');
     self.lifeInfo.classList.add('life-info');
