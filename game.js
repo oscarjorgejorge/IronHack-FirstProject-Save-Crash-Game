@@ -114,7 +114,7 @@ Game.prototype.controlTime = function () {
     } else if (self.seconds >= 10) {
         self.timeoutTime = 200;
     } else {
-        self.timeoutTime = 100;
+        self.timeoutTime = c;
     }
 }
 
