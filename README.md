@@ -10,4 +10,4 @@ Module focus on the front-end.
 
 Technologies: HTML, CSS, Javascript
 
-Try it out: https://oscarjorgejorge.github.io/ih-first-project/
+Try it out: https://oscarjorgejorge.github.io/IronHack-FirstProject-Save-Crash-Game/
